@@ -107,17 +107,24 @@ async function loadBackground() {
     }
 
     if (BG_MODE === "bing") {
+        // 必应官方接口不带 CORS 头，前端 fetch 会被拦，改用支持 CORS 的代理拿 URL
         try {
-            const res = await fetch("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=zh-CN");
+            const idx = Math.floor(Math.random() * 8); // 近 8 天随机一张
+            const res = await fetch(`https://bing.biturl.top/?resolution=1920&format=json&index=${idx}&mkt=zh-CN`);
             const data = await res.json();
-            const img = data.images[Math.floor(Math.random() * data.images.length)];
-            let url = "https://www.bing.com" + img.url;
-            if (BG_BING_SIZE === "UHD") {
-                applyBackground(url.replace("_1920x1080", "_UHD"), url); // 4K 失败回退 1080p
+            if (data && data.url) {
+                let url = data.url;
+                if (BG_BING_SIZE === "UHD") {
+                    applyBackground(url.replace("_1920x1080", "_UHD"), url); // 4K 失败回退 1080p
+                } else {
+                    applyBackground(url, "");
+                }
                 return;
             }
-            applyBackground(url, "");
-        } catch (e) { /* 网络失败保持渐变 */ }
+        } catch (e) { /* 代理挂了走下面直链兜底 */ }
+
+        // 兜底：直链图片（<img> 加载，天然无 CORS 限制）
+        applyBackground("https://api.dujin.org/bing/1920.php", "");
         return;
     }
 
