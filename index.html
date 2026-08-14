@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>adou · 域名收藏夹</title>
 
+    <!-- ═══════════════════════════════════════════
+         配置区：想改名字 / 社交链接，只改下面这一块
+         ═══════════════════════════════════════════ -->
+    <script>
+        // 显示的名字
+        const SITE_NAME = "adou";
+
+        // 社交链接：icon 用 Font Awesome 图标名，url 用 # 或留空则不显示
+        const SOCIAL_LINKS = [
+            { icon: "fa-brands fa-github",    url: "https://github.com/alivedou", label: "GitHub" },
+            { icon: "fa-brands fa-x-twitter", url: "https://x.com/",             label: "X" },
+            { icon: "fa-solid fa-envelope",   url: "mailto:you@example.com",     label: "邮箱" },
+            { icon: "fa-brands fa-telegram",  url: "https://t.me/",              label: "Telegram" },
+        ];
+    </script>
+    <!-- ═══════════════ 配置区结束 ═══════════════ -->
+
     <link rel="stylesheet" href="style.css">
 
     <!-- 大时钟字体（科技感数字） -->
@@ -20,8 +37,8 @@
 
     <div class="overlay">
 
-        <!-- 名字 -->
-        <h1 class="name">adou</h1>
+        <!-- 名字（由顶部 SITE_NAME 填充） -->
+        <h1 class="name" id="site-name">adou</h1>
 
         <!-- 大时钟（主视觉） -->
         <div class="clock">
@@ -34,24 +51,11 @@
             <span id="domain"></span>
         </div>
 
-        <!-- 社交 -->
-        <div class="social">
-            <a href="https://github.com/alivedou" target="_blank" title="GitHub">
-                <i class="fa-brands fa-github"></i>
-            </a>
-            <a href="https://x.com/" target="_blank" title="X">
-                <i class="fa-brands fa-x-twitter"></i>
-            </a>
-            <a href="mailto:you@example.com" title="邮箱">
-                <i class="fa-solid fa-envelope"></i>
-            </a>
-            <a href="https://t.me/" target="_blank" title="Telegram">
-                <i class="fa-brands fa-telegram"></i>
-            </a>
-        </div>
+        <!-- 社交（由顶部 SOCIAL_LINKS 动态生成） -->
+        <div class="social" id="social"></div>
 
         <!-- Power -->
-        <p class="power">
+        <p class="power" id="power-text">
             ©2026 Power by adou
         </p>
 
