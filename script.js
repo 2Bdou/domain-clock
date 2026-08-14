@@ -100,31 +100,50 @@ function applyBackground(url, fallbackUrl) {
     img.src = url;
 }
 
+async function loadBingBackground() {
+    // 必应官方接口不带 CORS 头，前端 fetch 会被拦，改用支持 CORS 的代理拿 URL
+    try {
+        const idx = Math.floor(Math.random() * 8); // 近 8 天随机一张
+        const res = await fetch(`https://bing.biturl.top/?resolution=1920&format=json&index=${idx}&mkt=zh-CN`);
+        const data = await res.json();
+        if (data && data.url) {
+            let url = data.url;
+            if (BG_BING_SIZE === "UHD") {
+                applyBackground(url.replace("_1920x1080", "_UHD"), url); // 4K 失败回退 1080p
+            } else {
+                applyBackground(url, "");
+            }
+            return;
+        }
+    } catch (e) { /* 代理挂了走下面直链兜底 */ }
+
+    // 兜底：直链图片（<img> 加载，天然无 CORS 限制）
+    applyBackground("https://api.dujin.org/bing/1920.php", "");
+}
+
 async function loadBackground() {
     if (BG_MODE === "custom" && BG_CUSTOM_URL) {
         applyBackground(BG_CUSTOM_URL, "");
         return;
     }
 
-    if (BG_MODE === "bing") {
-        // 必应官方接口不带 CORS 头，前端 fetch 会被拦，改用支持 CORS 的代理拿 URL
+    if (BG_MODE === "wallhaven") {
+        // Wallhaven 高清壁纸；大陆被墙时 fetch 会失败，自动回退必应
         try {
-            const idx = Math.floor(Math.random() * 8); // 近 8 天随机一张
-            const res = await fetch(`https://bing.biturl.top/?resolution=1920&format=json&index=${idx}&mkt=zh-CN`);
+            const keyParam = BG_WALLHAVEN_KEY ? `&apikey=${BG_WALLHAVEN_KEY}` : "";
+            const res = await fetch(`https://wallhaven.cc/api/v1/search?sorting=random&categories=111&purity=100&atleast=1920x1080${keyParam}`);
             const data = await res.json();
-            if (data && data.url) {
-                let url = data.url;
-                if (BG_BING_SIZE === "UHD") {
-                    applyBackground(url.replace("_1920x1080", "_UHD"), url); // 4K 失败回退 1080p
-                } else {
-                    applyBackground(url, "");
-                }
+            if (data && data.data && data.data.length) {
+                applyBackground(data.data[0].path, "");
                 return;
             }
-        } catch (e) { /* 代理挂了走下面直链兜底 */ }
+        } catch (e) { /* 被墙/挂了，回退必应 */ }
+        await loadBingBackground();
+        return;
+    }
 
-        // 兜底：直链图片（<img> 加载，天然无 CORS 限制）
-        applyBackground("https://api.dujin.org/bing/1920.php", "");
+    if (BG_MODE === "bing") {
+        await loadBingBackground();
         return;
     }
 

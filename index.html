@@ -6,7 +6,7 @@
     <title>adou · 域名收藏夹</title>
 
     <!-- ═══════════════════════════════════════════
-         配置区：想改名字 / 社交链接 / 背景图，只改下面这一块
+         配置区：想改名字 / 社交链接，只改下面这一块
          ═══════════════════════════════════════════ -->
     <script>
         // 显示的名字
@@ -22,20 +22,25 @@
 
         // ── 背景图配置 ───────────────────────────────
         // 背景模式：
-        //   "bing"   必应每日壁纸（官方图库，无需 key，最稳定，推荐）
-        //   "picsum" Lorem Picsum 随机图库（随机风景，适合想看变化）
-        //   "custom" 用下面 BG_CUSTOM_URL 你自己的高清大图直链
-        //   "none"   默认深青绿渐变（不加载图）
+        //   "bing"      必应每日壁纸（大陆可访问，默认）
+        //   "wallhaven" Wallhaven 高清壁纸（图质量最高，但大陆被墙需梯子；失败自动回退必应）
+        //   "picsum"    Lorem Picsum 随机图库（随机风景，适合想看变化）
+        //   "custom"    用下面 BG_CUSTOM_URL 你自己的高清大图直链
+        //   "none"      默认深青绿渐变（不加载图）
         const BG_MODE = "bing";
 
         // custom 模式：填你自己的高清大图直链（jpg/png/webp）
         const BG_CUSTOM_URL = "";
 
+        // wallhaven 模式：API key（https://wallhaven.cc/settings/account 免费生成），
+        // 留空也能用但有限频；填了更稳
+        const BG_WALLHAVEN_KEY = "";
+
         // bing 清晰度："UHD"(4K 超清，推荐) 或 "1920x1080"(加载更快)
         const BG_BING_SIZE = "UHD";
 
         // 定时自动换图间隔（分钟）。0 = 只在打开时加载一张，不自动换
-        // bing 每天只更新一张，设 60 即可；picsum 想多看变化设 10~30
+        // bing 每天只更新一张，设 60 即可；picsum / wallhaven 想多看变化设 10~30
         const BG_REFRESH_MIN = 60;
         // ── 背景图配置结束 ───────────────────────────
     </script>
