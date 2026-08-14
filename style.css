@@ -7,10 +7,28 @@
 
 body {
     min-height: 100vh;
-    /* 深青绿渐变背景（呼应头像配色），想换图片就把这行换成 background: url(...) center/cover no-repeat fixed */
-    background: linear-gradient(160deg, #0a1f24 0%, #0e2a30 45%, #123038 100%);
+    background: #0a1f24;   /* 兜底底色，实际背景由 .bg-layer 渲染 */
     font-family: Arial, Helvetica, sans-serif;
     color: #e8f0f2;
+}
+
+/* 背景层（默认深青绿渐变，或由 JS 按顶部配置换成高清图） */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(160deg, #0a1f24 0%, #0e2a30 45%, #123038 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 深色遮罩：压暗背景，保证文字清晰可读 */
+.bg-layer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 18, 22, 0.5);
 }
 
 /* 主内容 */

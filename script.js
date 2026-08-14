@@ -80,3 +80,56 @@ async function getIP() {
 }
 
 getIP();
+
+
+// ===============================
+// 背景图（顶部 BG_MODE / BG_CUSTOM_URL 配置）
+// ===============================
+
+const bgLayer = document.getElementById("bg-layer");
+
+function applyBackground(url, fallbackUrl) {
+    const img = new Image();
+    img.onload = () => {
+        bgLayer.style.backgroundImage = `url("${url}")`;
+    };
+    img.onerror = () => {
+        if (fallbackUrl) applyBackground(fallbackUrl, "");
+        // 都失败则保持默认渐变
+    };
+    img.src = url;
+}
+
+async function loadBackground() {
+    if (BG_MODE === "custom" && BG_CUSTOM_URL) {
+        applyBackground(BG_CUSTOM_URL, "");
+        return;
+    }
+
+    if (BG_MODE === "bing") {
+        try {
+            const res = await fetch("https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=8&mkt=zh-CN");
+            const data = await res.json();
+            const img = data.images[Math.floor(Math.random() * data.images.length)];
+            let url = "https://www.bing.com" + img.url;
+            if (BG_BING_SIZE === "UHD") {
+                applyBackground(url.replace("_1920x1080", "_UHD"), url); // 4K 失败回退 1080p
+                return;
+            }
+            applyBackground(url, "");
+        } catch (e) { /* 网络失败保持渐变 */ }
+        return;
+    }
+
+    if (BG_MODE === "picsum") {
+        applyBackground(`https://picsum.photos/1920/1080?random=${Date.now()}`);
+        return;
+    }
+
+    // "none"：保持默认渐变
+}
+
+loadBackground();
+if (BG_REFRESH_MIN > 0) {
+    setInterval(loadBackground, BG_REFRESH_MIN * 60 * 1000);
+}

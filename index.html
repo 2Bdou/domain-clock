@@ -6,7 +6,7 @@
     <title>adou · 域名收藏夹</title>
 
     <!-- ═══════════════════════════════════════════
-         配置区：想改名字 / 社交链接，只改下面这一块
+         配置区：想改名字 / 社交链接 / 背景图，只改下面这一块
          ═══════════════════════════════════════════ -->
     <script>
         // 显示的名字
@@ -19,6 +19,25 @@
             { icon: "fa-solid fa-envelope",   url: "mailto:you@example.com",     label: "邮箱" },
             { icon: "fa-brands fa-telegram",  url: "https://t.me/",              label: "Telegram" },
         ];
+
+        // ── 背景图配置 ───────────────────────────────
+        // 背景模式：
+        //   "bing"   必应每日壁纸（官方图库，无需 key，最稳定，推荐）
+        //   "picsum" Lorem Picsum 随机图库（随机风景，适合想看变化）
+        //   "custom" 用下面 BG_CUSTOM_URL 你自己的高清大图直链
+        //   "none"   默认深青绿渐变（不加载图）
+        const BG_MODE = "bing";
+
+        // custom 模式：填你自己的高清大图直链（jpg/png/webp）
+        const BG_CUSTOM_URL = "";
+
+        // bing 清晰度："UHD"(4K 超清，推荐) 或 "1920x1080"(加载更快)
+        const BG_BING_SIZE = "UHD";
+
+        // 定时自动换图间隔（分钟）。0 = 只在打开时加载一张，不自动换
+        // bing 每天只更新一张，设 60 即可；picsum 想多看变化设 10~30
+        const BG_REFRESH_MIN = 60;
+        // ── 背景图配置结束 ───────────────────────────
     </script>
     <!-- ═══════════════ 配置区结束 ═══════════════ -->
 
@@ -34,6 +53,9 @@
 </head>
 
 <body>
+
+    <!-- 背景层（由顶部背景配置动态渲染） -->
+    <div class="bg-layer" id="bg-layer"></div>
 
     <div class="overlay">
 
