@@ -1,4 +1,25 @@
 // ===============================
+// 应用顶部配置：名字 + 社交链接
+// ===============================
+
+document.getElementById("site-name").innerText = SITE_NAME;
+document.getElementById("power-text").innerText = `©2026 Power by ${SITE_NAME}`;
+
+const socialBox = document.getElementById("social");
+SOCIAL_LINKS.forEach(link => {
+    if (!link.url || link.url === "#") return;   // url 为空则不渲染
+    const a = document.createElement("a");
+    a.href = link.url;
+    a.target = "_blank";
+    a.title = link.label || "";
+    const i = document.createElement("i");
+    i.className = link.icon;
+    a.appendChild(i);
+    socialBox.appendChild(a);
+});
+
+
+// ===============================
 // 当前访问域名
 // ===============================
 
