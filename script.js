@@ -128,16 +128,16 @@ async function loadBackground() {
     }
 
     if (BG_MODE === "wallhaven") {
-        // Wallhaven 高清壁纸；大陆被墙时 fetch 会失败，自动回退必应
+        // Wallhaven 高清壁纸；走同域 /api/wallhaven 代理（key 在 CF 后台环境变量，不泄露）
+        // Function 挂了或本地预览（无 Function）时，回退必应
         try {
-            const keyParam = BG_WALLHAVEN_KEY ? `&apikey=${BG_WALLHAVEN_KEY}` : "";
-            const res = await fetch(`https://wallhaven.cc/api/v1/search?sorting=random&categories=111&purity=100&atleast=1920x1080${keyParam}`);
+            const res = await fetch("/api/wallhaven");
             const data = await res.json();
-            if (data && data.data && data.data.length) {
-                applyBackground(data.data[0].path, "");
+            if (data && data.url) {
+                applyBackground(data.url, "");
                 return;
             }
-        } catch (e) { /* 被墙/挂了，回退必应 */ }
+        } catch (e) { /* Function 挂了，回退必应 */ }
         await loadBingBackground();
         return;
     }
