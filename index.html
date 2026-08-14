@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>adou · 域名收藏夹</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- 大时钟字体（科技感数字） -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome（社交图标） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="overlay">
+
+        <!-- 名字 -->
+        <h1 class="name">adou</h1>
+
+        <!-- 大时钟（主视觉） -->
+        <div class="clock">
+            <div id="clock-time" class="clock-time">00:00:00</div>
+            <div id="clock-date" class="clock-date">----年--月--日 星期-</div>
+        </div>
+
+        <!-- 当前访问域名 -->
+        <div class="domain-box">
+            <span id="domain"></span>
+        </div>
+
+        <!-- 社交 -->
+        <div class="social">
+            <a href="https://github.com/alivedou" target="_blank" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://x.com/" target="_blank" title="X">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a href="mailto:you@example.com" title="邮箱">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a href="https://t.me/" target="_blank" title="Telegram">
+                <i class="fa-brands fa-telegram"></i>
+            </a>
+        </div>
+
+        <!-- Power -->
+        <p class="power">
+            ©2026 Power by adou
+        </p>
+
+    </div>
+
+    <!-- 底部：IP + 国家 -->
+    <div class="footer">
+        <div id="ip">Loading...</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
