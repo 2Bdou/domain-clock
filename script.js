@@ -148,14 +148,32 @@ async function loadBackground() {
     }
 
     if (BG_MODE === "picsum") {
-        applyBackground(`https://picsum.photos/1920/1080?random=${Date.now()}`);
+        applyBackground(`https://picsum.photos/1920/1080?random=${Date.now()}`, "");
         return;
     }
 
     // "none"：保持默认渐变
 }
 
-loadBackground();
-if (BG_REFRESH_MIN > 0) {
-    setInterval(loadBackground, BG_REFRESH_MIN * 60 * 1000);
+// 尝试从 CF 环境变量加载配置（走 /api/config），拿不到就用 index.html 里的默认值
+async function loadConfig() {
+    try {
+        const res = await fetch("/api/config");
+        const cfg = await res.json();
+        if (cfg.BG_MODE) BG_MODE = cfg.BG_MODE;
+        if (cfg.BG_CUSTOM_URL !== undefined) BG_CUSTOM_URL = cfg.BG_CUSTOM_URL;
+        if (cfg.BG_BING_SIZE) BG_BING_SIZE = cfg.BG_BING_SIZE;
+        if (cfg.BG_REFRESH_MIN !== undefined && cfg.BG_REFRESH_MIN !== "") {
+            BG_REFRESH_MIN = Number(cfg.BG_REFRESH_MIN);
+        }
+    } catch (e) { /* 本地预览 / 无 Function，用默认值 */ }
 }
+
+async function init() {
+    await loadConfig();
+    loadBackground();
+    if (BG_REFRESH_MIN > 0) {
+        setInterval(loadBackground, BG_REFRESH_MIN * 60 * 1000);
+    }
+}
+init();

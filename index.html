@@ -21,23 +21,28 @@
         ];
 
         // ── 背景图配置 ───────────────────────────────
-        // 背景模式：
+        // 这些是【默认值】：本地预览、或 CF 后台没配环境变量时生效。
+        // 部署到 CF Pages 后，可在 CF 后台「Settings → Environment variables」
+        // 用同名环境变量覆盖，无需改代码：
+        //   BG_MODE / BG_CUSTOM_URL / BG_BING_SIZE / BG_REFRESH_MIN
+        //
+        // 背景模式（BG_MODE）可选：
         //   "bing"      必应每日壁纸（大陆可访问，默认）
-        //   "wallhaven" Wallhaven 高清壁纸（图质量最高；key 存 CF 后台环境变量 WALLHAVEN_API_KEY，失败自动回退必应）
+        //   "wallhaven" Wallhaven 高清壁纸（图质量最高；key 存 CF 后台 WALLHAVEN_API_KEY，失败自动回退必应）
         //   "picsum"    Lorem Picsum 随机图库（随机风景，适合想看变化）
-        //   "custom"    用下面 BG_CUSTOM_URL 你自己的高清大图直链
+        //   "custom"    用 BG_CUSTOM_URL 你自己的高清大图直链
         //   "none"      默认深青绿渐变（不加载图）
-        const BG_MODE = "bing";
+        let BG_MODE = "bing";
 
         // custom 模式：填你自己的高清大图直链（jpg/png/webp）
-        const BG_CUSTOM_URL = "";
+        let BG_CUSTOM_URL = "";
 
         // bing 清晰度："UHD"(4K 超清，推荐) 或 "1920x1080"(加载更快)
-        const BG_BING_SIZE = "UHD";
+        let BG_BING_SIZE = "UHD";
 
         // 定时自动换图间隔（分钟）。0 = 只在打开时加载一张，不自动换
         // bing 每天只更新一张，设 60 即可；picsum / wallhaven 想多看变化设 10~30
-        const BG_REFRESH_MIN = 60;
+        let BG_REFRESH_MIN = 60;
         // ── 背景图配置结束 ───────────────────────────
     </script>
     <!-- ═══════════════ 配置区结束 ═══════════════ -->
